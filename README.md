@@ -1,24 +1,30 @@
-# README
+# Code challenge
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements
 
-Things you may want to cover:
+- ruby 2.4
+- mysql
 
-* Ruby version
+## Setup project
 
-* System dependencies
+```bash
+bundle install
 
-* Configuration
+# edit .env.development according to your needs
 
-* Database creation
+rake db:create
 
-* Database initialization
+./bin/rails s
+```
 
-* How to run the test suite
+## Running tests
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+bundle install
 
-* Deployment instructions
+# edit .env.test according to your needs
 
-* ...
+RAILS_ENV=test rake db:create
+
+./bin/rake spec
+```
