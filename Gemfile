@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'dotenv-rails'
+gem 'redis'
+gem 'redis-namespace'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6'

@@ -4,6 +4,7 @@
 
 - ruby 2.4
 - mysql
+- redis
 
 ## Setup project
 
