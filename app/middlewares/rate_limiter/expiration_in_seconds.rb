@@ -4,7 +4,7 @@ module RateLimiter
       @seconds = seconds
     end
 
-    def expiration_for(time)
+    def for(time)
       Result.new(time, expiration_in_seconds: @seconds)
     end
 
@@ -16,6 +16,10 @@ module RateLimiter
 
       def valid?
         expires_in > 0
+      end
+
+      def expired?
+        !valid?
       end
 
       def expires_in

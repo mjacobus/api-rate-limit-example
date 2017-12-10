@@ -13,6 +13,8 @@ RSpec.describe RateLimiter::Storage::RedisStorage do
   end
 
   describe '#fetch' do
+    let(:value) { { foo: 'bar' } }
+
     it 'returns nil when nothing exists' do
       expect(storage.fetch('key')).to be_nil
     end
@@ -22,11 +24,25 @@ RSpec.describe RateLimiter::Storage::RedisStorage do
     end
 
     it 'returns result when there is one' do
-      value = { foo: 'bar' }
-
       storage.store('key', value)
 
       expect(storage.fetch('key')).to eq(value)
+    end
+
+    describe 'when data expired' do
+      before do
+        Timecop.travel(15.seconds.ago) do
+          storage.store('key', value)
+        end
+      end
+
+      it 'returns nil' do
+        expect(storage.fetch('key', timestamp: true)).to be_nil
+      end
+
+      it 'returns block result when block given' do
+        expect(storage.fetch('key', timestamp: true) { 'foo' }).to eq('foo')
+      end
     end
   end
 
@@ -39,6 +55,17 @@ RSpec.describe RateLimiter::Storage::RedisStorage do
       storage.store('key', value)
 
       expect(storage.fetch('key')).to eq(value)
+    end
+
+    it 'sets timestamp to the data' do
+      Timecop.freeze(Time.now) do
+        value = { foo: 'bar' }
+        storage.store('key', value)
+
+        stored = storage.fetch('key', timestamp: true)
+
+        expect(stored).to eq(value.merge(_timestamp: Time.now.to_i))
+      end
     end
   end
 

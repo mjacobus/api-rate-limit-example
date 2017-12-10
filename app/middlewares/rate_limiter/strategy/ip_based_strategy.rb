@@ -1,21 +1,16 @@
 module RateLimiter
   module Strategy
     class IpBasedStrategy
-      def next_result(env)
-      end
+      def next_result(env); end
 
       class Result
-        def format_response(app, env)
-        end
+        def format_response(app, env); end
 
-        def allowed?(env)
-        end
+        def allowed?(env); end
 
-        def modified(app, env)
-        end
+        def modified(app, env); end
 
-        def forbid(app, env)
-        end
+        def forbid(app, env); end
       end
     end
   end
