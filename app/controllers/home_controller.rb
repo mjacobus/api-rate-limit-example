@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   end
 
   def dump
-    json = request.env.select do |key, value|
+    json = request.env.select do |_key, value|
       value.is_a?(String)
     end
 
