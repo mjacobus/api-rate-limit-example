@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
   root to: 'home#index'
-  get '*path', to: 'home#dump'
+  get '*path', to: 'home#show'
 end

@@ -15,7 +15,7 @@ storage = RateLimiter::Storage::RedisStorage.new(
 
 strategy = RateLimiter::Strategy::IpBasedStrategy.new(
   storage:  storage,
-  max_number_of_requests:  ENV['RATE_LIMIT_POLICY_NUMBER_OF_REQUESTS'],
+  max_number_of_requests: ENV['RATE_LIMIT_POLICY_NUMBER_OF_REQUESTS'],
   time_range_in_seconds: ENV['RATE_LIMIT_POLICY_TIME_IN_SECONDS']
 )
 
