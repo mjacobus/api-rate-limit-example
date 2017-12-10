@@ -6,7 +6,7 @@ module RateLimiter
       def initialize(storage:, max_number_of_requests:, time_range_in_seconds:)
         @storage = storage
         @max_requests = Integer(max_number_of_requests)
-        @time_range = Integer(time_range_in_seconds)
+        @expiration = ExpirationInSeconds.new(time_range_in_seconds)
       end
 
       def handle_request(next_middleware:, env:)
@@ -34,7 +34,7 @@ module RateLimiter
       end
 
       def message(data)
-        seconds = ExpirationInSeconds.new(@time_range).for(data[:_timestamp]).expires_in
+        seconds = @expiration.for(data[:_timestamp]).expires_in
         "Rate limit exceeded. Try again in #{seconds} seconds"
       end
     end
