@@ -1,7 +1,7 @@
 module RateLimiter
   module Storage
     class RedisStorage
-      def initialize(redis:)
+      def initialize(redis:, expiration:)
         @redis = redis
       end
 

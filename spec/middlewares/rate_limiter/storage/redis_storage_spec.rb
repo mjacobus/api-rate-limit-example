@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe RateLimiter::Storage::RedisStorage do
   let(:global_redis) { Redis.new(url: ENV.fetch('REDIS_URL')) }
   let(:redis) { Redis::Namespace.new(ns: 'test_api_rate', redis: global_redis) }
-  let(:storage) { described_class.new(redis: redis) }
+  let(:expiration) { RateLimiter::ExpirationInSeconds.new(10) }
+  let(:storage) { described_class.new(redis: redis, expiration: expiration) }
 
   before do
     storage.keys.each do |key|
