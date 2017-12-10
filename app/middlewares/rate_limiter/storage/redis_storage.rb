@@ -47,6 +47,7 @@ module RateLimiter
         unless options.fetch(:timestamp) { false }
           value.delete(:_timestamp)
         end
+
         value
       end
     end

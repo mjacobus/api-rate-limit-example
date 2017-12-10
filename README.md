@@ -29,3 +29,7 @@ RAILS_ENV=test rake db:create
 
 ./bin/rake spec
 ```
+
+## Testing the application:
+
+Start rails and run './examples/rate_limit.sh'
