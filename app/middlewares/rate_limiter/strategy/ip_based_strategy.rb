@@ -17,7 +17,7 @@ module RateLimiter
           return next_middleware.call(env)
         end
 
-        [STATUS_DENIED, [message(data)], {}]
+        [STATUS_DENIED, {}, [message(data)]]
       end
 
       private

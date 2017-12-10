@@ -18,7 +18,7 @@ RSpec.describe RateLimiter::Strategy::IpBasedStrategy do
 
   let(:env) { Hash['REMOTE_ADDR' => 'the-ip'] }
   let(:env2) { Hash['REMOTE_ADDR' => 'the-ip2'] }
-  let(:app_response) { [200, ['ok'], { foo: :bar }] }
+  let(:app_response) { [200, { foo: :bar }, ['ok']] }
 
   describe '#handle_request' do
     it 'responds ok while limit is not reached' do
@@ -31,7 +31,7 @@ RSpec.describe RateLimiter::Strategy::IpBasedStrategy do
       Timecop.travel(3.seconds.from_now) do
         # denied
         response = strategy.handle_request(next_middleware: app, env: env)
-        expect(response).to eq([429, ['Rate limit exceeded. Try again in 7 seconds'], {}])
+        expect(response).to eq([429, {}, ['Rate limit exceeded. Try again in 7 seconds']])
 
         # different ip OK
         response = strategy.handle_request(next_middleware: app, env: env2)
@@ -47,7 +47,7 @@ RSpec.describe RateLimiter::Strategy::IpBasedStrategy do
 
         # denied
         response = strategy.handle_request(next_middleware: app, env: env)
-        expect(response).to eq([429, ['Rate limit exceeded. Try again in 10 seconds'], {}])
+        expect(response).to eq([429, {}, ['Rate limit exceeded. Try again in 10 seconds']])
       end
     end
   end

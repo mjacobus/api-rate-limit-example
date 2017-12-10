@@ -7,7 +7,7 @@ RSpec.describe RateLimiter::Middleware do
 
   let(:app) do
     proc do |env|
-      [200, ['ok'], { foo: :bar }.merge(env)]
+      [200, { foo: :bar }.merge(env), ['ok']]
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe RateLimiter::Middleware do
       end
 
       it 'delegates call to app when policy is not applicable' do
-        expected_response = [200, ['ok'], { foo: :bar, env: :value }]
+        expected_response = [200, { foo: :bar, env: :value }, ['ok']]
 
         response = subject.call(env)
 
