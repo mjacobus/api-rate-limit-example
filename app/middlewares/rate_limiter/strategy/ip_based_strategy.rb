@@ -14,6 +14,7 @@ module RateLimiter
         data = fetch_and_increment(key)
 
         if data[:count] <= @max_requests
+          @storage.store(key, data)
           return next_middleware.call(env)
         end
 
@@ -25,7 +26,6 @@ module RateLimiter
       def fetch_and_increment(key)
         data = @storage.fetch(key, timestamp: true) { Hash[count: 0] }
         data[:count] += 1
-        @storage.store(key, data)
         data
       end
 

@@ -38,6 +38,12 @@ RSpec.describe RateLimiter::Strategy::IpBasedStrategy do
         expect(response).to eq(app_response)
       end
 
+      Timecop.travel(4.seconds.from_now) do
+        # denied
+        response = strategy.handle_request(next_middleware: app, env: env)
+        expect(response).to eq([429, {}, ['Rate limit exceeded. Try again in 6 seconds']])
+      end
+
       Timecop.travel(14.seconds.from_now) do
         # allowed 5 times
         1.upto(5) do
