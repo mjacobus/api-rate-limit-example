@@ -1,7 +1,7 @@
 module RateLimiter
   class ExpirationInSeconds
     def initialize(seconds)
-      @seconds = seconds
+      @seconds = Integer(seconds)
     end
 
     def for(time)

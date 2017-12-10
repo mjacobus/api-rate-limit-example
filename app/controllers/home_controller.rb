@@ -1,10 +1,13 @@
 class HomeController < ApplicationController
   def index
-    redis = Redis.new(url: ENV.fetch('REDIS_URL'))
-    store = Redis::Namespace.new(ns: 'api_rate', redis: redis)
-    next_count = Integer(store.get('count') || 0) + 1
-    store.set('count', next_count)
+    render plain: 'ok'
+  end
 
-    render plain: 'ok' + store.get('count')
+  def dump
+    json = request.env.select do |key, value|
+      value.is_a?(String)
+    end
+
+    render json: json.to_json
   end
 end
