@@ -5,14 +5,17 @@ RSpec.describe RateLimiter::Strategy::IpBasedStrategy do
     storage.keys.map { |key| storage.remove(key) }
   end
 
-  let(:storage) { Rails.configuration.rate_limiter[:storage] }
+  let(:config) { ENV.to_h.merge(app_env: Rails.env) }
+  let(:factory) { RateLimitterMiddlewareFactory.new(config: config) }
+
+  let(:storage) { factory.storage }
   let(:app) { proc { |_env| app_response } }
 
   let(:strategy) do
     described_class.new(
       storage: storage,
       max_number_of_requests: 5,
-      time_range_in_seconds: Rails.configuration.rate_limiter[:time_range_in_seconds]
+      time_range_in_seconds: 10
     )
   end
 
